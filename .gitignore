@@ -1,0 +1,5 @@
+.idea
+out/
+
+src/main/resources/**/input.txt
+aoc2025.iml
