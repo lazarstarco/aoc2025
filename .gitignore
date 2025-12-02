@@ -1,5 +1,6 @@
 .idea
 out/
 
-src/main/resources/**/input.txt
+/src/main/java/test/
+/src/main/resources/
 aoc2025.iml
