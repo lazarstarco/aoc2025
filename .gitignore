@@ -1,6 +1,18 @@
-.idea
-out/
+# IntelliJ
+.idea/
+*.iml
+*.ipr
+*.iws
 
+# Build outputs
+out/
+target/
+build/
+
+# Resources folder structure
+src/main/resources/**
+!src/main/resources/**/
+!src/main/resources/**/*.gitkeep
+
+# Class used for testing features
 /src/main/java/test/
-/src/main/resources/
-aoc2025.iml
