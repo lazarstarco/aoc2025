@@ -6,6 +6,9 @@ import java.util.List;
 
 public class FileReader {
 
+    private FileReader() {
+    }
+
     public static List<String> readForClass(Class<?> callerClass) {
         try {
             String folder = callerClass.getPackageName()
