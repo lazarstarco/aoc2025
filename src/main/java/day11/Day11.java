@@ -16,7 +16,7 @@ public class Day11 {
         List<String> lines = FileReader.readForClass(Day11.class);
 
         part1(lines);
-        //        part2(lines);
+        part2(lines);
     }
 
     private static void part1(List<String> lines) {
@@ -28,14 +28,7 @@ public class Day11 {
         );
     }
 
-    private static void part2(List<String> lines) {
-        Map<String, List<String>> paths = parsePaths(lines);
-        Map<String, Set<String>> reachabilityMap = getReachabilityMap(paths);
-        System.out.println(
-                countPaths("svr", paths, reachabilityMap,
-                        Set.of("dac", "fft"))
-        );
-    }
+    private static void part2(List<String> lines) {}
 
     private static Map<String, List<String>> parsePaths(List<String> lines) {
         Map<String, List<String>> paths = new HashMap<>();
