@@ -1,6 +1,5 @@
 package main.java.day11;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,9 +22,7 @@ public class Day11 {
         Map<String, List<String>> paths = parsePaths(lines);
         Map<String, Set<String>> reachabilityMap = getReachabilityMap(paths);
 
-        System.out.println(
-                countPaths("you", paths, reachabilityMap, new HashSet<>())
-        );
+        System.out.println(countPaths("you", "out", paths, new HashSet<>(), reachabilityMap));
     }
 
     private static void part2(List<String> lines) {}
@@ -63,75 +60,27 @@ public class Day11 {
         }
     }
 
-    private static int countPaths(String start,
-            String end,
-            Map<String, List<String>> map,
-            Set<String> visited,
-            Map<String, Set<String>> reachabilityMap,
-            List<String> currentPath,
-            Set<String> currentNodes,
-            Set<String> requirements) {
-
-        visited.add(start);
-        currentPath.add(start);
-        currentNodes.add(start);
-
-        int total = 0;
-
-        if (start.equals(end)) {
-            if (requirements.isEmpty() || currentNodes.containsAll(requirements)) {
-                total = 1;
-            }
-
-            currentPath.removeLast();
-            currentNodes.remove(start);
-            visited.remove(start);
-            return total;
-        }
-
-        Set<String> reachableFromCurrent = reachabilityMap.getOrDefault(start, Set.of());
-        if (!reachableFromCurrent.contains(end)) {
-            currentPath.removeLast();
-            currentNodes.remove(start);
-            visited.remove(start);
+    private static int countPaths(String start, String end, Map<String, List<String>> map, Set<String> visited,
+            Map<String, Set<String>> reachabilityMap) {
+        if (!reachabilityMap.getOrDefault(start, Set.of()).contains(end)
+            && !start.equals(end)) {
             return 0;
         }
 
-        if (!requirements.isEmpty()) {
-            for (String req : requirements) {
-                if (!currentNodes.contains(req) && !reachableFromCurrent.contains(req)) {
-                    currentPath.removeLast();
-                    currentNodes.remove(start);
-                    visited.remove(start);
-                    return 0;
-                }
+        if (start.equals(end)) {
+            return 1;
+        }
+
+        visited.add(start);
+        int total = 0;
+
+        for (String target : map.getOrDefault(start, List.of())) {
+            if (!visited.contains(target)) {
+                total += countPaths(target, end, map, visited, reachabilityMap);
             }
         }
 
-        for (String next : map.getOrDefault(start, List.of())) {
-            if (!visited.contains(next)) {
-                total += countPaths(next, end, map, visited, reachabilityMap,
-                        currentPath, currentNodes, requirements);
-            }
-        }
-
-        currentPath.removeLast();
-        currentNodes.remove(start);
         visited.remove(start);
-
         return total;
-    }
-
-    private static int countPaths(String start, Map<String, List<String>> map,
-            Map<String, Set<String>> reachabilityMap, Set<String> requirements) {
-        return countPaths(start,
-                "out",
-                map,
-                new HashSet<>(),
-                reachabilityMap,
-                new ArrayList<>(),
-                new HashSet<>(),
-                requirements);
-
     }
 }
